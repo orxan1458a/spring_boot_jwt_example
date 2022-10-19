@@ -1,6 +1,6 @@
 package com.car.tracking.jwt.service;
 
-import com.car.tracking.jwt.dao.UserDao;
+import com.car.tracking.jwt.repository.UserRepository;
 import com.car.tracking.jwt.entity.JwtRequest;
 import com.car.tracking.jwt.entity.User;
 import com.car.tracking.jwt.util.JwtUtil;
@@ -26,7 +26,7 @@ public class JwtService implements UserDetailsService {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -39,18 +39,18 @@ public class JwtService implements UserDetailsService {
         UserDetails userDetails = loadUserByUsername(userName);
         String newGeneratedToken = jwtUtil.generateToken(userDetails);
 
-        User user = userDao.findById(userName).get();
+        User user = userRepository.findByUserName(userName);
         return new JwtResponse(user, newGeneratedToken);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findById(username).get();
+        User user = userRepository.findByUserName(username);
 
         if (user != null) {
             return new org.springframework.security.core.userdetails.User(
                     user.getUserName(),
-                    user.getUserPassword(),
+                    user.getPassword(),
                     getAuthority(user)
             );
         } else {
