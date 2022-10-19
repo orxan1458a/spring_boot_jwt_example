@@ -1,12 +1,10 @@
 package com.car.tracking.jwt.controller;
 
-import com.car.tracking.jwt.entity.Car;
-import com.car.tracking.jwt.entity.Driver;
-import com.car.tracking.jwt.entity.LiveData;
-import com.car.tracking.jwt.entity.User;
+import com.car.tracking.jwt.entity.*;
 import com.car.tracking.jwt.repository.CarRepository;
 import com.car.tracking.jwt.repository.DriverRepository;
 import com.car.tracking.jwt.repository.LiveDataRepository;
+import com.car.tracking.jwt.repository.ZoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +23,15 @@ public class LiveDataController {
     CarRepository carRepository;
     @Autowired
     LiveDataRepository liveDataRepository;
+    @Autowired
+    ZoneRepository zoneRepository;
+
     @PostMapping("/add-driver")
     public String addDriver(@RequestBody Driver driver){
         driverRepository.save(driver);
        return "save edildi";
     }
-    @PostMapping("/add-car")
+    @PostMapping("/addCar")
     public String addCar(@RequestBody Car car){
         carRepository.save(car);
         LiveData liveData=new LiveData();
@@ -52,8 +53,25 @@ public class LiveDataController {
         liveDataRepository.deleteById(71L);
         return "her shey silindi";
     }
-    @GetMapping("/all-live-data")
+
+    @GetMapping("/allLiveData")
     public Iterable<LiveData> allLiveData(){
         return liveDataRepository.findAll();
+    }
+
+    @GetMapping("/allDrivers")
+    public Iterable<Driver> allDriver(){
+//        System.out.println(driverRepository.findAll());
+        return driverRepository.findAll();
+    }
+
+    @PostMapping("/addZone")
+    public String addZone(@RequestBody Zone zone){
+        zoneRepository.save(zone);
+        return "Change save";
+    }
+    @GetMapping("/allZones")
+    public Iterable<Zone> allZones(){
+        return zoneRepository.findAll();
     }
 }

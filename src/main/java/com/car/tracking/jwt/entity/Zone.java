@@ -1,5 +1,6 @@
 package com.car.tracking.jwt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class Zone {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "driver_id", nullable = true)
     private Driver driver;
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "zone")
     private List<PolygonPoint> coordinatList;
 }
