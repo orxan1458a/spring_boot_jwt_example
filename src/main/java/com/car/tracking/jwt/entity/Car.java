@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,15 +25,19 @@ public class Car {
     private String carNumber;
     private boolean allZoneShow;
     private boolean notification;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = true)
-    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "driver_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "driver_id")
     private Driver driver;
+    @OneToMany(mappedBy = "car")
+    private List<Event> events;
     @JsonIgnore
-    @OneToOne(mappedBy = "car")
+    @OneToMany(mappedBy = "car")
+    private List<Zone> zones;
+    @JsonIgnore
+    @OneToOne(mappedBy = "car",fetch = FetchType.LAZY)
     private LiveData liveData;
 
 }

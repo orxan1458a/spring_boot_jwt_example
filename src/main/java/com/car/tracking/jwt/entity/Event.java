@@ -1,5 +1,6 @@
 package com.car.tracking.jwt.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,12 +22,14 @@ public class Event {
     private String event;
     @Column(name = "current_date_time", columnDefinition = "TIMESTAMP")
     private LocalDateTime currentDateTime;
+    @ManyToOne
+    @JoinColumn(name = "car_id", nullable = true)
+    @JsonBackReference
+    private Car car;
     private double latitude;
     private double longitude;
     private double altitude;
     private int speed;
     private int heading;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id")
-    private Driver driver;
+
 }

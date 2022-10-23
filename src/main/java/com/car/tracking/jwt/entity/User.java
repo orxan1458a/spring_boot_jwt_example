@@ -1,5 +1,6 @@
 package com.car.tracking.jwt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,8 +26,8 @@ public class User {
     private String email;
     private String teleqramAccount;
     private String phoneNumber;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
     private List<Car> cars;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLE",

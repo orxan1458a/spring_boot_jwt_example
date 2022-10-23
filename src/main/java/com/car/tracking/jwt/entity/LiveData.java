@@ -1,6 +1,7 @@
 package com.car.tracking.jwt.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -26,9 +27,9 @@ public class LiveData {
     private int speed;
     private int heading;
     @Column(name = "current_date_time", columnDefinition = "TIMESTAMP")
+    @JsonFormat(pattern="hh:mm:ss DD/MM/YYYY")
     private LocalDateTime currentDateTime;
-//    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "car_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "car_id")
     private Car car;
 }

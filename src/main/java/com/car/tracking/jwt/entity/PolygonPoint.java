@@ -1,5 +1,7 @@
 package com.car.tracking.jwt.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +20,8 @@ public class PolygonPoint {
     private long id;
     private double latitude;
     private double longitude;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "zone_id")
+    @ManyToOne
+    @JoinColumn(name = "zone_id", nullable = true)
     private Zone zone;
+
 }

@@ -24,12 +24,8 @@ public class Driver {
     private String fatherName;
     private String phoneNumber;
     @JsonIgnore
-    @OneToOne(mappedBy = "driver")
+    @OneToOne(mappedBy = "driver",fetch = FetchType.LAZY)
     private Car car;
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "driver")
-    private List<Zone> zones;
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "driver")
-    private List<Event> events;
+
+
 }

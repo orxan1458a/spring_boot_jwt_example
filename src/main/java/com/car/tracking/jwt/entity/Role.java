@@ -14,12 +14,9 @@ import javax.persistence.Id;
 @Builder
 @Entity
 public class Role {
-
     @Id
     @GeneratedValue
     private long id;
     private String roleName;
     private String roleDescription;
-
-
 }
