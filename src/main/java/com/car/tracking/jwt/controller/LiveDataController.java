@@ -63,6 +63,7 @@ public class LiveDataController {
 
     @GetMapping("/allLiveData")
     public Iterable<LiveData> allLiveData(){
+
         return liveDataRepository.findAll();
     }
 

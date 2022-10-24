@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -19,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Transactional
 public class Zone {
     @Id
     @GeneratedValue
@@ -31,7 +33,6 @@ public class Zone {
     @JsonFormat(pattern="hh:mm:ss")
     private Time toHour;
     private int[] weekDays;
-    private boolean isZoneShow;
     private boolean notification;
     @ManyToOne
     @JoinColumn(name = "car_id", nullable = false)

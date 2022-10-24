@@ -29,13 +29,13 @@ public class UserService {
         Role adminRole = new Role();
         adminRole.setRoleName("Admin");
         adminRole.setRoleDescription("Admin role");
-////        roleRepository.save(adminRole);
+//        roleRepository.save(adminRole);
 ////
 //        Role userRole = new Role();
 //        userRole.setRoleName("User");
 //        userRole.setRoleDescription("Default role for newly created record");
 //        roleRepository.save(userRole);
-
+//
 //        User adminUser = new User();
 //        adminUser.setUserName("admin");
 //        adminUser.setPassword(getEncodedPassword("admin"));

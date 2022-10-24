@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@Transactional
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,7 +25,6 @@ public class Car {
     private String carBrand;
     private String carColor;
     private String carNumber;
-    private boolean allZoneShow;
     private boolean notification;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
