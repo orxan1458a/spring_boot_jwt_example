@@ -1,6 +1,6 @@
 package com.car.tracking.jwt.controller;
 
-import com.car.tracking.jwt.entity.Role;
+import com.car.tracking.jwt.entity.db.Role;
 import com.car.tracking.jwt.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

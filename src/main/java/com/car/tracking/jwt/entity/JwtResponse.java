@@ -1,5 +1,7 @@
 package com.car.tracking.jwt.entity;
 
+import com.car.tracking.jwt.entity.db.User;
+
 public class JwtResponse {
 
     private User user;

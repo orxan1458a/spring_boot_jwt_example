@@ -1,15 +1,12 @@
 package com.car.tracking.jwt.controller;
 
-import com.car.tracking.jwt.entity.*;
+import com.car.tracking.jwt.entity.db.*;
 import com.car.tracking.jwt.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -78,11 +75,56 @@ public class LiveDataController {
         zoneRepository.save(zone);
         return "Change save";
     }
+    @PostMapping("/updateZone/{id}")
+    public void updateZone(@PathVariable Long id,@RequestBody Zone zone,@RequestBody PolygonPoint polygonPoint){
+        List<Zone> list=new ArrayList<>();
+        List<Zone> allZones=zoneRepository.findAll();
+        for(int i=0;i<allZones.size();i++){
+            if(allZones.get(i).getCar().getId()==id){
+                allZones.get(i).setAllow(zone.isAllow());
+                allZones.get(i).setNotification(zone.isNotification());
+                allZones.get(i).setFromHour(zone.getFromHour());
+                allZones.get(i).setToHour(zone.getToHour());
+            }
+        }
+        List<PolygonPoint> list2=new ArrayList<>();
+        List<PolygonPoint> allPoints=new ArrayList<>();
+        for(int i=0;i<allPoints.size();i++){
+            if(allPoints.get(i).getZone().getId()==id){
+                allPoints.get(i).setLatitude(polygonPoint.getLatitude());
+                allPoints.get(i).setLongitude(polygonPoint.getLongitude());
+            }
+        }
+        zoneRepository.save(zone);
+
+    }
     @GetMapping("/allZones")
     public Iterable<Zone> allZones(){
+
         return zoneRepository.findAll();
     }
-
+    @GetMapping("/allZones/{id}")
+    public List<Zone> getZones(@PathVariable Long id ){
+        List<Zone> list=new ArrayList<>();
+        List<Zone> allZones=zoneRepository.findAll();
+        for(int i=0;i<allZones.size();i++){
+            if(allZones.get(i).getCar().getId()==id){
+                list.add(allZones.get(i));
+            }
+        }
+        return list;
+    }
+    @GetMapping("/polygonCoordinates/{id}")
+    public List<PolygonPoint> getPolygonCoordinates(@PathVariable Long id ){
+        List<PolygonPoint> list=new ArrayList<>();
+        List<PolygonPoint> allCoordinates=polygonPointRepository.findAll();
+        for(int i=0;i<allCoordinates.size();i++){
+            if(allCoordinates.get(i).getZone().getId()==id){
+                list.add(allCoordinates.get(i));
+            }
+        }
+        return list;
+    }
     @PostMapping("/addCoordinate")
     public String addCoordinate(@RequestBody PolygonPoint polygonPoint){
          polygonPointRepository.save(polygonPoint);

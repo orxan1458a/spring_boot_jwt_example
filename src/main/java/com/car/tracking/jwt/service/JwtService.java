@@ -2,7 +2,7 @@ package com.car.tracking.jwt.service;
 
 import com.car.tracking.jwt.repository.UserRepository;
 import com.car.tracking.jwt.entity.JwtRequest;
-import com.car.tracking.jwt.entity.User;
+import com.car.tracking.jwt.entity.db.User;
 import com.car.tracking.jwt.util.JwtUtil;
 import com.car.tracking.jwt.entity.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;

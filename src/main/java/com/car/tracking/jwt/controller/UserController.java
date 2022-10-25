@@ -1,6 +1,6 @@
 package com.car.tracking.jwt.controller;
 
-import com.car.tracking.jwt.entity.User;
+import com.car.tracking.jwt.entity.db.User;
 import com.car.tracking.jwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

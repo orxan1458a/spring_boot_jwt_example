@@ -1,7 +1,5 @@
-package com.car.tracking.jwt.entity;
+package com.car.tracking.jwt.entity.db;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

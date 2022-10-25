@@ -1,6 +1,6 @@
-package com.car.tracking.jwt.entity;
+package com.car.tracking.jwt.entity.db;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.car.tracking.jwt.entity.db.Car;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data

@@ -1,4 +1,4 @@
-package com.car.tracking.jwt.entity;
+package com.car.tracking.jwt.entity.db;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
