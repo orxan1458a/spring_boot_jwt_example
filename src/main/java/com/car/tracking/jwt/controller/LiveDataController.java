@@ -23,15 +23,17 @@ public class LiveDataController {
     PolygonPointRepository polygonPointRepository;
     @Autowired
     UserRepository userRepository;
+
     @PostMapping("/addDriver")
-    public String addDriver(@RequestBody Driver driver){
+    public String addDriver(@RequestBody Driver driver) {
         driverRepository.save(driver);
-       return "save edildi";
+        return "save edildi";
     }
+
     @PostMapping("/addCar")
-    public String addCar(@RequestBody Car car){
+    public String addCar(@RequestBody Car car) {
         carRepository.save(car);
-        LiveData liveData=new LiveData();
+        LiveData liveData = new LiveData();
         liveData.setCar(car);
         liveData.setAltitude(1);
         liveData.setHeading(23);
@@ -46,12 +48,12 @@ public class LiveDataController {
     }
 
     @GetMapping("/allCars")
-    public Iterable<Car> allCars(){
+    public Iterable<Car> allCars() {
         return carRepository.findAll();
     }
 
     @GetMapping("/deleteAll")
-    public String deleteAll(){
+    public String deleteAll() {
         carRepository.deleteById(69L);
         driverRepository.deleteById(70L);
         liveDataRepository.deleteById(71L);
@@ -59,90 +61,106 @@ public class LiveDataController {
     }
 
     @GetMapping("/allLiveData")
-    public Iterable<LiveData> allLiveData(){
+    public Iterable<LiveData> allLiveData() {
 
         return liveDataRepository.findAll();
     }
 
     @GetMapping("/allDrivers")
-    public Iterable<Driver> allDriver(){
+    public Iterable<Driver> allDriver() {
 //        System.out.println(driverRepository.findAll());
         return driverRepository.findAll();
     }
 
     @PostMapping("/addZone")
-    public String addZone(@RequestBody Zone zone){
+    public String addZone(@RequestBody Zone zone) {
         zoneRepository.save(zone);
         return "Change save";
     }
-    @PostMapping("/updateZone/{id}")
-    public void updateZone(@PathVariable Long id,@RequestBody Zone zone,@RequestBody PolygonPoint polygonPoint){
-        List<Zone> list=new ArrayList<>();
-        List<Zone> allZones=zoneRepository.findAll();
-        for(int i=0;i<allZones.size();i++){
-            if(allZones.get(i).getCar().getId()==id){
-                allZones.get(i).setAllow(zone.isAllow());
-                allZones.get(i).setNotification(zone.isNotification());
-                allZones.get(i).setFromHour(zone.getFromHour());
-                allZones.get(i).setToHour(zone.getToHour());
-            }
-        }
-        List<PolygonPoint> list2=new ArrayList<>();
-        List<PolygonPoint> allPoints=new ArrayList<>();
-        for(int i=0;i<allPoints.size();i++){
-            if(allPoints.get(i).getZone().getId()==id){
-                allPoints.get(i).setLatitude(polygonPoint.getLatitude());
-                allPoints.get(i).setLongitude(polygonPoint.getLongitude());
-            }
-        }
-        zoneRepository.save(zone);
 
+    @PostMapping("/updateZone")
+    public void updateZone(@RequestBody Zone zone) {
+        System.out.println(zone.toString());
+        List<PolygonPoint> points = new ArrayList<>();
+        Zone _zone = zoneRepository.findById(zone.getId()).get();
+        _zone.setFromHour(zone.getFromHour());
+        _zone.setToHour(zone.getToHour());
+        _zone.setNotification(zone.isNotification());
+        _zone.setAllow(zone.isAllow());
+        _zone.setWeekDays(zone.getWeekDays());
+        zoneRepository.save(_zone);
     }
+
+    @PostMapping("/updatePolygon")
+    public void updatePolygon(@RequestBody List<PolygonPoint> polygonPoints) {
+        List<PolygonPoint> list = polygonPointRepository.findAll();
+
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < polygonPoints.size(); j++) {
+                if (list.get(i).getZone().getId() == polygonPoints.get(j).getZone().getId()) {
+                    polygonPointRepository.deleteById(list.get(i).getId());
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < polygonPoints.size(); i++) {
+            PolygonPoint polygon_Point = new PolygonPoint();
+            polygon_Point.setLatitude(polygonPoints.get(i).getLatitude());
+            polygon_Point.setLongitude(polygonPoints.get(i).getLongitude());
+            polygon_Point.setZone(zoneRepository.findById(polygonPoints.get(i).getZone().getId()).get());
+            polygonPointRepository.save(polygon_Point);
+        }
+    }
+
     @GetMapping("/allZones")
-    public Iterable<Zone> allZones(){
+    public Iterable<Zone> allZones() {
 
         return zoneRepository.findAll();
     }
+
     @GetMapping("/allZones/{id}")
-    public List<Zone> getZones(@PathVariable Long id ){
-        List<Zone> list=new ArrayList<>();
-        List<Zone> allZones=zoneRepository.findAll();
-        for(int i=0;i<allZones.size();i++){
-            if(allZones.get(i).getCar().getId()==id){
+    public List<Zone> getZones(@PathVariable Long id) {
+        List<Zone> list = new ArrayList<>();
+        List<Zone> allZones = zoneRepository.findAll();
+        for (int i = 0; i < allZones.size(); i++) {
+            if (allZones.get(i).getCar().getId() == id) {
                 list.add(allZones.get(i));
             }
         }
         return list;
     }
+
     @GetMapping("/polygonCoordinates/{id}")
-    public List<PolygonPoint> getPolygonCoordinates(@PathVariable Long id ){
-        List<PolygonPoint> list=new ArrayList<>();
-        List<PolygonPoint> allCoordinates=polygonPointRepository.findAll();
-        for(int i=0;i<allCoordinates.size();i++){
-            if(allCoordinates.get(i).getZone().getId()==id){
+    public List<PolygonPoint> getPolygonCoordinates(@PathVariable Long id) {
+        List<PolygonPoint> list = new ArrayList<>();
+        List<PolygonPoint> allCoordinates = polygonPointRepository.findAll();
+        for (int i = 0; i < allCoordinates.size(); i++) {
+            if (allCoordinates.get(i).getZone().getId() == id) {
                 list.add(allCoordinates.get(i));
             }
         }
         return list;
     }
+
     @PostMapping("/addCoordinate")
-    public String addCoordinate(@RequestBody PolygonPoint polygonPoint){
-         polygonPointRepository.save(polygonPoint);
+    public String addCoordinate(@RequestBody PolygonPoint polygonPoint) {
+        polygonPointRepository.save(polygonPoint);
         return "change save";
     }
 
     @GetMapping("/allCoordinates")
-    public Iterable<PolygonPoint> allCoordinates(){
+    public Iterable<PolygonPoint> allCoordinates() {
         return polygonPointRepository.findAll();
     }
 
     @GetMapping("/allUsers")
-    public Iterable<User> allUsers(){
+    public Iterable<User> allUsers() {
         return userRepository.findAll();
     }
 
     @PostMapping("/addUser")
-    public String addUser(@RequestBody User user){
+    public String addUser(@RequestBody User user) {
         userRepository.save(user);
         return "save user";
     }
