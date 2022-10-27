@@ -2,20 +2,20 @@ package com.car.tracking.jwt.entity.db;
 
 import com.car.tracking.jwt.entity.db.Car;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
+@ToString
 @Transactional
 public class LiveData {
     @Id
@@ -32,4 +32,7 @@ public class LiveData {
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "car_id")
     private Car car;
+    @JsonIgnore
+    @OneToMany(mappedBy = "liveData")
+    private List<Trajectory> trajectories;
 }

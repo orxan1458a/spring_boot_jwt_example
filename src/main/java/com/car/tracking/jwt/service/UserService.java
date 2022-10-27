@@ -35,7 +35,7 @@ public class UserService {
 //        userRole.setRoleName("User");
 //        userRole.setRoleDescription("Default role for newly created record");
 //        roleRepository.save(userRole);
-//
+////
 //        User adminUser = new User();
 //        adminUser.setUserName("admin");
 //        adminUser.setPassword(getEncodedPassword("admin"));

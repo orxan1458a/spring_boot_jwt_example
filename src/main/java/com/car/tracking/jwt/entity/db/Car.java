@@ -40,4 +40,5 @@ public class Car {
     @OneToOne(mappedBy = "car",fetch = FetchType.LAZY)
     private LiveData liveData;
 
+
 }

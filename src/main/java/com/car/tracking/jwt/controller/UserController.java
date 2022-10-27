@@ -1,6 +1,7 @@
 package com.car.tracking.jwt.controller;
 
 import com.car.tracking.jwt.entity.db.User;
+import com.car.tracking.jwt.repository.TrajectoryRepository;
 import com.car.tracking.jwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,9 +17,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
 
+    private TrajectoryRepository trajectoryRepository;
     @PostConstruct
     public void initRoleAndUser() {
+        trajectoryRepository.deleteAll();
         userService.initRoleAndUser();
     }
 
